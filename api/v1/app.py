@@ -13,6 +13,8 @@ port_env = getenv('HBNB_API_PORT') or 5000
 app = Flask(__name__)
 app.url_map.strict_slashes = False
 app.register_blueprint(app_views)
+
+
 @app.teardown_appcontext
 def teardown_db(error):
     """ Close db session """
