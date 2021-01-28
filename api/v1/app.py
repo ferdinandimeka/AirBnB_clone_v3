@@ -3,7 +3,7 @@
 from models import storage
 from api.v1.views import app_views
 from os import getenv
-from flask import Flask
+from flask import Flask, make_response, jsonify
 from flask import Blueprint
 
 """Host and port env variables"""
@@ -20,7 +20,19 @@ def teardown_db(error):
     """ Close db session """
     storage.close()
 
+
+@app.errorhandler(404)
+def not_found(error):
+    """
+    Method to manage the url's that does'nt exist
+    """
+    return make_response(jsonify({"error": "Not found"}), 404)
+
+
 if __name__ == "__main__":
+    """
+    Main Function
+    """
     app.run(
         host=host_env, port=port_env,
         debug=True, threaded=True,
