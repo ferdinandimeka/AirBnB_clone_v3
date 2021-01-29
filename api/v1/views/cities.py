@@ -8,16 +8,16 @@ from models.city import City
 
 @app_views.route('/states/<state_id>/cities', methods=['GET'])
 def cityAll(state_id):
-    """ Retrieves the lists cities """
-    lists = []
+    """ Retrieves the list cities """
+    ll = []
     state = storage.get("State", str(state_id))
     if state is None:
         abort(404)
     xx = storage.all("City").values()
     for yy in xx:
         if yy.state_id == str(state_id):
-            lists.append(yy.to_dict())
-    return jsonify(lists)
+            ll.append(yy.to_dict())
+    return jsonify(ll)
 
 
 @app_views.route('/cities/<city_id>', methods=['GET'])
@@ -61,14 +61,3 @@ def citiesPost(state_id):
 def put_cities(city_id):
     """ Update"""
     x = storage.get("City", str(city_id))
-    if x is None:
-        abort(404)
-    if not request.get_json():
-        return jsonify({'error': 'Not a JSON'}), 400
-    a = ["id", "update_at", "created_at", "state_id"]
-    content = request.get_json().items()
-    for key, val in content:
-        if key not in a:
-            setattr(x, key, val)
-    x.save()
-    return jsonify(x.to_dict()), 200

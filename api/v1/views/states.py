@@ -1,5 +1,5 @@
 #!/usr/bin/python3
-""" View States in a Json file """
+""" View State """
 from models import storage
 from models.state import State
 from api.v1.views import app_views
@@ -9,18 +9,18 @@ from flask import Flask, jsonify, abort, request
 @app_views.route("/states", methods=["GET"])
 def statesAll():
     """Retrieves all states with a list of objects"""
-    list = []
+    ll = []
     s = storage.all('State').values()
     for v in s:
-        list.append(v.to_dict())
-    return jsonify(list)
+        ll.append(v.to_dict())
+    return jsonify(ll)
 
 
 @app_views.route("/states/<id>", methods=["GET"])
 def stateId(id):
     """id state retrieve json object"""
-    list = storage.all('State').values()
-    for v in list:
+    s = storage.all('State').values()
+    for v in s:
         if v.id == id:
             return jsonify(v.to_dict())
     abort(404)
