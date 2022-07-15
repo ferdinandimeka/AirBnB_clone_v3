@@ -18,6 +18,7 @@ def place_allamens(place_id):
         return jsonify([])
     return jsonify([amen.to_dict() for amen in place.amenities])
 
+
 @app_views.route('/places/<place_id>/amenities/<amenity_id>',
                  methods=['DELETE', 'POST'])
 def place_amenity(place_id, amenity_id):
